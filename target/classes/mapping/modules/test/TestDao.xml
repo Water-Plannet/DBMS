@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhg.javakc.modules.test.dao.TestDao">
+<select id="findList" resultType="com.zhg.javakc.modules.test.entity.TestEntity">
+	SELECT TESTID,TESTNAME,TESTSEX,TESTDATE FROM TESTUSER WHERE 1=1
+<if test="testName!='' and testName!=null" >
+	AND TESTNAME LIKE '%'||#{testName}||'%'
+</if>
+</select>
+	<insert id="insert" parameterType="com.zhg.javakc.modules.test.entity.TestEntity">
+		insert into TESTUSER(TESTID,TESTNAME,TESTSEX,TESTDATE) values (#{testId},#{testName},#{testSex},#{testDate})
+	</insert>
+<select id="get" resultType="com.zhg.javakc.modules.test.entity.TestEntity">
+	select TESTID,TESTNAME,TESTSEX,TESTDATE FROM TESTUSER WHERE TESTID=#{0}
+</select>
+
+	<update id="update" >
+update testuser set testname=#{testName},testsex=#{testSex},testdate=#{testDate} where TESTID=#{testId}
+	</update>
+
+	<delete id="delete">
+		delete from testuser WHERE TESTID IN
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+		#{id}
+			</foreach>
+	</delete>
+</mapper>
